@@ -1,0 +1,26 @@
+name:                functional-game-of-life
+version:             0.1.0.0
+github:              "theoluiging/functional-game-of-life"
+author:              "Theo Luigi"
+
+extra-source-files:
+- README.md
+
+description:         Please see the README on GitHub at <https://github.com/theoluiging/functional-game-of-life#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- brick
+- vty
+- microlens
+- microlens-th
+
+library:
+  source-dirs: src
+
+executables:
+  functional-game-of-life-exe:
+    main:             Main.hs
+    source-dirs:      app
+    dependencies:
+    - functional-game-of-life
