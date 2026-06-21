@@ -42,6 +42,7 @@ executable functional-game-of-life-exe
       Paths_functional_game_of_life
   hs-source-dirs:
       app
+  ghc-options: -threaded
   build-depends:
       base >=4.7 && <5
     , brick

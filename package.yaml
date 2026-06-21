@@ -22,5 +22,7 @@ executables:
   functional-game-of-life-exe:
     main:             Main.hs
     source-dirs:      app
+    ghc-options:
+    - -threaded
     dependencies:
     - functional-game-of-life
