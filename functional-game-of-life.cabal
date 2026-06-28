@@ -32,6 +32,7 @@ library
       base >=4.7 && <5
     , brick
     , microlens
+    , microlens-mtl
     , microlens-th
     , vty
   default-language: Haskell2010
@@ -48,6 +49,7 @@ executable functional-game-of-life-exe
     , brick
     , functional-game-of-life
     , microlens
+    , microlens-mtl
     , microlens-th
     , vty
   default-language: Haskell2010
