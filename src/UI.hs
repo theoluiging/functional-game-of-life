@@ -1,6 +1,7 @@
 module UI where
 
 import Brick.Widgets.Core (str, hBox, vBox)
+import Brick.Widgets.Border (borderWithLabel, border)
 import Brick.Types (Widget)
 import Lens.Micro ((^.))
 import Mechanics (GameState, liveCells, width, height, cursorPos)
@@ -24,3 +25,10 @@ drawCell coord st =
     else 
         str "  "
 
+drawMenu:: Widget n
+drawMenu = border (hBox [str "[R] Restart  ", str "[SPACE] Invert  ", str "[ENTER] Start/Stop  ", str "[Q] Exit "])
+
+drawUI:: GameState -> Widget n
+drawUI st = vBox [borderedGrid st, drawMenu]
+    where
+        borderedGrid = borderWithLabel (str "Conway's Game of Life") . drawGrid

@@ -7,31 +7,31 @@ import Graphics.Vty as Vty (
     Key(KChar, KEsc, KUp, KDown, KLeft, KRight), 
     defAttr) 
 import Mechanics
-import UI (drawGrid)
+import UI (drawUI)
 
+handleMoveEvent :: Mechanics.Direction -> EventM () GameState ()
+handleMoveEvent dir = do
+    cursorPos %= \c -> moveCursor c dir
+    modify limitCursor
 
 -- Recebe o evento atual e decide o que fazer com o Estado na Mónada de Eventos.
 handleEvent :: BrickEvent () e -> EventM () GameState ()
 handleEvent (VtyEvent e) = case e of
     Vty.EvKey (Vty.KChar 'q') [] -> halt
     Vty.EvKey Vty.KEsc        [] -> halt
-    Vty.EvKey Vty.KUp         [] -> do
-        cursorPos %= \c -> moveCursor c U
-        modify limitCursor
-    Vty.EvKey Vty.KDown       [] -> do
-        cursorPos %= \c -> moveCursor c D
-        modify limitCursor
-    Vty.EvKey Vty.KLeft       [] -> do
-        cursorPos %= \c -> moveCursor c L
-        modify limitCursor
-    Vty.EvKey Vty.KRight      [] -> do
-        cursorPos %= \c -> moveCursor c R
-        modify limitCursor
+    Vty.EvKey Vty.KUp         [] -> handleMoveEvent U
+    Vty.EvKey (Vty.KChar 'w') [] -> handleMoveEvent U
+    Vty.EvKey Vty.KDown       [] -> handleMoveEvent D
+    Vty.EvKey (Vty.KChar 's') [] -> handleMoveEvent D
+    Vty.EvKey Vty.KLeft       [] -> handleMoveEvent L
+    Vty.EvKey (Vty.KChar 'a') [] -> handleMoveEvent L
+    Vty.EvKey Vty.KRight      [] -> handleMoveEvent R
+    Vty.EvKey (Vty.KChar 'd') [] -> handleMoveEvent R
 handleEvent _ = return () -- Para qualquer outra tecla, não faz nada
 
 
 app :: App GameState e ()
-app = App { appDraw         = \st -> [drawGrid st]
+app = App { appDraw         = \st -> [drawUI st]
           , appChooseCursor = neverShowCursor
           , appHandleEvent  = handleEvent
           , appStartEvent   = return ()

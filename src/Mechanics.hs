@@ -28,10 +28,10 @@ initialState = GameState {
 }
 
 startWidth:: Int
-startWidth = 50
+startWidth = 30
 
 startHeight:: Int
-startHeight = 30
+startHeight = 20
 
 moveCursor:: Coord -> Direction -> Coord
 moveCursor (x,y) dir = case dir of
