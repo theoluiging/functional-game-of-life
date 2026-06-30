@@ -28,10 +28,10 @@ initialState = GameState {
 }
 
 startWidth:: Int
-startWidth = 30
+startWidth = 35
 
 startHeight:: Int
-startHeight = 20
+startHeight = 25
 
 moveCursor:: Coord -> Direction -> Coord
 moveCursor (x,y) dir = case dir of
@@ -48,3 +48,10 @@ limitCursor st = st {_cursorPos = (newX, newY)}
         h = st ^. height
         newX = x `mod` w
         newY = y `mod` h
+
+toggleCell:: Coord -> [Coord] -> [Coord]
+toggleCell c cells =
+    if elem c cells then
+        filter (/= c) cells
+    else
+        c : cells

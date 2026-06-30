@@ -18,15 +18,18 @@ drawLine y w st = hBox [ drawCell (x, y) st | x <- [0 .. w-1] ]
 
 drawCell:: (Int, Int) -> GameState -> Widget n
 drawCell coord st = 
-    if 
-        coord == (st ^. cursorPos) then str "><"
-    else if
-        elem coord (st ^. liveCells) then str "██"
+    if coord == (st ^. cursorPos) then 
+            if elem coord (st ^. liveCells) then 
+                str "[]"
+            else 
+                str "><"
+    else if elem coord (st ^. liveCells) then 
+        str "██"
     else 
         str "  "
 
 drawMenu:: Widget n
-drawMenu = border (hBox [str "[R] Restart  ", str "[SPACE] Invert  ", str "[ENTER] Start/Stop  ", str "[Q] Exit "])
+drawMenu = border (hBox [str "[R] Restart  ", str "[SPACE] Toggle Cell  ", str "[ENTER] Start/Stop  ", str "[Q] Exit "])
 
 drawUI:: GameState -> Widget n
 drawUI st = vBox [borderedGrid st, drawMenu]

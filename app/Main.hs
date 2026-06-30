@@ -1,10 +1,10 @@
 module Main where
 
 import Brick
-import Lens.Micro.Mtl ( (%=) )
+import Lens.Micro.Mtl ( (%=), use, (.=) )
 import Graphics.Vty as Vty (
     Event(EvKey), 
-    Key(KChar, KEsc, KUp, KDown, KLeft, KRight), 
+    Key(KChar, KEsc, KUp, KDown, KLeft, KRight, KEnter), 
     defAttr) 
 import Mechanics
 import UI (drawUI)
@@ -27,6 +27,11 @@ handleEvent (VtyEvent e) = case e of
     Vty.EvKey (Vty.KChar 'a') [] -> handleMoveEvent L
     Vty.EvKey Vty.KRight      [] -> handleMoveEvent R
     Vty.EvKey (Vty.KChar 'd') [] -> handleMoveEvent R
+    Vty.EvKey (Vty.KChar 'r') [] -> liveCells .= []
+    Vty.EvKey (Vty.KChar ' ') [] -> do
+        c <- use cursorPos
+        liveCells %= toggleCell c
+    _ -> return ()
 handleEvent _ = return () -- Para qualquer outra tecla, não faz nada
 
 
