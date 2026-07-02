@@ -35,6 +35,7 @@ library
     , microlens-mtl
     , microlens-th
     , vty
+    , vty-crossplatform
   default-language: Haskell2010
 
 executable functional-game-of-life-exe
@@ -52,4 +53,5 @@ executable functional-game-of-life-exe
     , microlens-mtl
     , microlens-th
     , vty
+    , vty-crossplatform
   default-language: Haskell2010
