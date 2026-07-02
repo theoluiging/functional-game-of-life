@@ -11,10 +11,14 @@ data Direction = U | D | L | R
 data GameState = GameState {
     _liveCells  :: [Coord],
     _gamePaused :: Bool,
-    _width      :: Int,
-    _height     :: Int,
     _cursorPos  :: Coord
 }
+
+width:: Int
+width = 35
+
+height:: Int
+height = 25
 
 makeLenses ''GameState
 
@@ -22,16 +26,9 @@ initialState :: GameState
 initialState = GameState {
     _liveCells  = [],
     _gamePaused = True,
-    _width      = startWidth,
-    _height     = startHeight,
-    _cursorPos  = (startWidth `div` 2, startHeight `div` 2)
+    _cursorPos  = (width `div` 2, height `div` 2)
 }
 
-startWidth:: Int
-startWidth = 35
-
-startHeight:: Int
-startHeight = 25
 
 moveCursor:: Coord -> Direction -> Coord
 moveCursor (x,y) dir = case dir of
@@ -44,10 +41,8 @@ limitCursor:: GameState -> GameState
 limitCursor st = st {_cursorPos = (newX, newY)}
     where
         (x,y) = st ^. cursorPos
-        w = st ^. width
-        h = st ^. height
-        newX = x `mod` w
-        newY = y `mod` h
+        newX = x `mod` width
+        newY = y `mod` height
 
 toggleCell:: Coord -> [Coord] -> [Coord]
 toggleCell c cells =

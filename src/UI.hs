@@ -9,9 +9,7 @@ import Mechanics (GameState, liveCells, width, height, cursorPos)
 drawGrid:: GameState -> Widget n
 drawGrid st = vBox linhas 
     where
-        w = st ^. width
-        h = st ^. height
-        linhas = [ drawLine y w st | y <- [0 .. h-1] ]
+        linhas = [ drawLine y width st | y <- [0 .. height-1] ]
 
 drawLine:: Int -> Int -> GameState -> Widget n
 drawLine y w st = hBox [ drawCell (x, y) st | x <- [0 .. w-1] ]
