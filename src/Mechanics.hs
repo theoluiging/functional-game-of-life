@@ -29,6 +29,12 @@ initialState = GameState {
     _cursorPos  = (width `div` 2, height `div` 2)
 }
 
+pauseWhenEmpty:: GameState -> GameState
+pauseWhenEmpty st = do
+    if length (st ^. liveCells) == 0 then
+        st {_gamePaused = True}
+    else
+        st
 
 moveCursor:: Coord -> Direction -> Coord
 moveCursor (x,y) dir = case dir of

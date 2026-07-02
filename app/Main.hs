@@ -27,6 +27,7 @@ handleNextState:: EventM () GameState ()
 handleNextState = do
     liveCells %= nextStep
     modify limitCells
+    modify pauseWhenEmpty
 
 -- Recebe o evento atual e decide o que fazer com o Estado na Mónada de Eventos.
 handleEvent :: BrickEvent () Tick -> EventM () GameState ()
