@@ -27,7 +27,7 @@ drawCell coord st =
         str "  "
 
 drawMenu:: Widget n
-drawMenu = border (hBox [str "[R] Restart  ", str "[SPACE] Toggle Cell  ", str "[ENTER] Start/Stop  ", str "[Q] Exit "])
+drawMenu = border (hBox [str "[R] Restart  ", str "[SPACE] Toggle Cell  ", str "[ENTER] Start/Stop  ", str "[T] Next  ", str "[Q] Exit "])
 
 drawUI:: GameState -> Widget n
 drawUI st = vBox [borderedGrid st, drawMenu]

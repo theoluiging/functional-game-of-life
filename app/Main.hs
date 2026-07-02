@@ -8,11 +8,17 @@ import Graphics.Vty as Vty (
     defAttr) 
 import Mechanics
 import UI (drawUI)
+import Logic ( nextStep )
 
 handleMoveEvent :: Mechanics.Direction -> EventM () GameState ()
 handleMoveEvent dir = do
     cursorPos %= \c -> moveCursor c dir
     modify limitCursor
+
+handleNextState:: EventM () GameState ()
+handleNextState = do
+    liveCells %= nextStep
+    modify limitCells
 
 -- Recebe o evento atual e decide o que fazer com o Estado na Mónada de Eventos.
 handleEvent :: BrickEvent () e -> EventM () GameState ()
@@ -27,10 +33,14 @@ handleEvent (VtyEvent e) = case e of
     Vty.EvKey (Vty.KChar 'a') [] -> handleMoveEvent L
     Vty.EvKey Vty.KRight      [] -> handleMoveEvent R
     Vty.EvKey (Vty.KChar 'd') [] -> handleMoveEvent R
-    Vty.EvKey (Vty.KChar 'r') [] -> liveCells .= []
+    Vty.EvKey (Vty.KChar 'r') [] -> do 
+        liveCells .= []
+        gamePaused %= not
     Vty.EvKey (Vty.KChar ' ') [] -> do
         c <- use cursorPos
         liveCells %= toggleCell c
+    Vty.EvKey (Vty.KChar 't') [] -> handleNextState
+    Vty.EvKey Vty.KEnter      [] -> gamePaused %= not
     _ -> return ()
 handleEvent _ = return () -- Para qualquer outra tecla, não faz nada
 

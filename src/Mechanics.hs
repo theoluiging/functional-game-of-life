@@ -37,12 +37,14 @@ moveCursor (x,y) dir = case dir of
     L -> (x - 1, y)
     R -> (x + 1, y)
 
-limitCursor:: GameState -> GameState
-limitCursor st = st {_cursorPos = (newX, newY)}
+limitCoord:: Coord -> Coord
+limitCoord (x,y) = (newX, newY)
     where
-        (x,y) = st ^. cursorPos
         newX = x `mod` width
         newY = y `mod` height
+
+limitCursor:: GameState -> GameState
+limitCursor st = st {_cursorPos = limitCoord (st ^. cursorPos)}
 
 toggleCell:: Coord -> [Coord] -> [Coord]
 toggleCell c cells =
@@ -50,3 +52,8 @@ toggleCell c cells =
         filter (/= c) cells
     else
         c : cells
+
+limitCells:: GameState -> GameState
+limitCells st = st {_liveCells = newCells}
+    where
+        newCells = [limitCoord x | x <- (st ^. liveCells)]
