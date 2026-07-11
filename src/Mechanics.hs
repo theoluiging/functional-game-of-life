@@ -59,7 +59,4 @@ toggleCell c cells =
     else
         c : cells
 
-limitCells:: GameState -> GameState
-limitCells st = st {_liveCells = newCells}
-    where
-        newCells = [limitCoord x | x <- (st ^. liveCells)]
+

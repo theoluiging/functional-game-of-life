@@ -4,6 +4,14 @@ import Control.Concurrent (forkIO, threadDelay)
 import Control.Monad (forever)
 
 import Brick
+    ( EventM,
+      BrickEvent(VtyEvent, AppEvent),
+      App(..),
+      modify,
+      halt,
+      neverShowCursor,
+      attrMap,
+      customMain )
 import Brick.BChan (newBChan, writeBChan)
 
 import Lens.Micro.Mtl ( (%=), use, (.=) )
@@ -12,6 +20,16 @@ import qualified Graphics.Vty as Vty
 import qualified Graphics.Vty.CrossPlatform as VCP
 
 import Mechanics
+    ( Direction(..),
+      GameState,
+      cursorPos,
+      moveCursor,
+      limitCursor,
+      liveCells,
+      pauseWhenEmpty,
+      gamePaused,
+      toggleCell,
+      initialState )
 import UI (drawUI)
 import Logic ( nextStep )
 
@@ -26,7 +44,6 @@ handleMoveEvent dir = do
 handleNextState:: EventM () GameState ()
 handleNextState = do
     liveCells %= nextStep
-    modify limitCells
     modify pauseWhenEmpty
 
 -- Recebe o evento atual e decide o que fazer com o Estado na Mónada de Eventos.
