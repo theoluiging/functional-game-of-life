@@ -58,5 +58,3 @@ toggleCell c cells =
         filter (/= c) cells
     else
         c : cells
-
-
